@@ -1,7 +1,8 @@
 var irc = require('irc'),
 printf = require('printf'),
 keyHandler = require('./keyHandler.js'),
-config = require('./config.js');
+config = require('./config.js'),
+serial = require('./buttonHandler.js');
 
 var client = new irc.Client(config.server, config.nick, {
     channels: [config.channel],
@@ -19,10 +20,14 @@ var client = new irc.Client(config.server, config.nick, {
     autoRejoin: true
 });
 
+
+var buttonHandler = new serial();
+
 var commandRegex = config.regexCommands ||
 new RegExp('^(' + config.commands.join('|') + ')$', 'i');
 
 client.addListener('message' + config.channel, function(from, message) {
+  console.log(message);
     if (message.match(commandRegex)) {
 
         if (config.printToConsole) {
@@ -38,7 +43,8 @@ client.addListener('message' + config.channel, function(from, message) {
 
         // Should the message be sent the program?
         if (config.sendKey) {
-            keyHandler.sendKey(message.toLowerCase());
+          //  keyHandler.sendKey(message.toLowerCase());
+              buttonHandler.sendKey(message.trim().toLowerCase());
         }
     }
 });

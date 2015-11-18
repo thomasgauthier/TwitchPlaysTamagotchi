@@ -2,10 +2,7 @@ var nconf = require('nconf').argv().env().file({ file:'config.json' });
 
 // List of commands to check for
 var commands = [
-    'left', 'right', 'up', 'down',
-    'start', 'select',
-    'a', 'b',
-    'democracy', 'anarchy'
+    'a', 'b', 'c'
 ];
 
 var username = process.env.TWITCH_USERNAME || nconf.get('TWITCH_USERNAME');
